@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ms-usuarios
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pontebella_usuarios
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # académico: Hibernate crea/actualiza las tablas automáticamente
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
