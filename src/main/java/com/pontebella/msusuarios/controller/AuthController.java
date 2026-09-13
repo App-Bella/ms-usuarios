@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pontebella.msusuarios.dto.request.LoginRequest;
 import com.pontebella.msusuarios.dto.request.RegistroRequest;
+import com.pontebella.msusuarios.dto.response.LoginResponse;
 import com.pontebella.msusuarios.dto.response.UsuarioResponse;
 import com.pontebella.msusuarios.service.UsuarioService;
 
@@ -28,8 +29,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UsuarioResponse> login(@RequestBody LoginRequest request) {
-        UsuarioResponse response = usuarioService.login(request);
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        LoginResponse response = usuarioService.login(request);
         return ResponseEntity.ok(response);
     }
 }
+
