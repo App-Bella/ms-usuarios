@@ -1,14 +1,11 @@
 package com.pontebella.msusuarios.service;
 
-import java.util.List;
-
 import com.pontebella.msusuarios.dto.request.ActualizarPerfilRequest;
 import com.pontebella.msusuarios.dto.request.ActualizarRolRequest;
 import com.pontebella.msusuarios.dto.request.LoginRequest;
 import com.pontebella.msusuarios.dto.request.RegistroRequest;
 import com.pontebella.msusuarios.dto.response.LoginResponse;
 import com.pontebella.msusuarios.dto.response.UsuarioResponse;
-import com.pontebella.msusuarios.enums.RolUsuario;
 
 public interface UsuarioService {
     UsuarioResponse registrar(RegistroRequest request);
@@ -17,6 +14,6 @@ public interface UsuarioService {
     UsuarioResponse actualizarPerfil(Long id, ActualizarPerfilRequest request);
     UsuarioResponse actualizarRol(Long id, ActualizarRolRequest request);
     void desactivarUsuario(Long id);
-    List<UsuarioResponse> buscarPorRol(RolUsuario rol);
+    
 }
 

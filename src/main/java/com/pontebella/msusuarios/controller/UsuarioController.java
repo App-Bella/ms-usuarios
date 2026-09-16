@@ -1,6 +1,5 @@
 package com.pontebella.msusuarios.controller;
 
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,13 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pontebella.msusuarios.dto.request.ActualizarPerfilRequest;
 import com.pontebella.msusuarios.dto.request.ActualizarRolRequest;
 import com.pontebella.msusuarios.dto.response.UsuarioResponse;
-import com.pontebella.msusuarios.enums.RolUsuario;
 import com.pontebella.msusuarios.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,10 +30,6 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponse>> buscarPorRol(@RequestParam RolUsuario rol) {
-        return ResponseEntity.ok(usuarioService.buscarPorRol(rol));
-    }
 
     /**
      * Edición de datos propios (nombre, teléfono). NO permite cambiar el rol.

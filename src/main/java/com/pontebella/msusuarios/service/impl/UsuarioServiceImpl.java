@@ -1,7 +1,5 @@
 package com.pontebella.msusuarios.service.impl;
 
-import java.util.List;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +38,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .nombre(request.getNombre())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .rol(request.getRol())
+                .rol(RolUsuario.CLIENTE)
                 .telefono(request.getTelefono())
                 .build();
 
@@ -111,12 +109,5 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    @Override
-    public List<UsuarioResponse> buscarPorRol(RolUsuario rol) {
-    return usuarioRepository.findByRol(rol)
-            .stream()
-            .map(this::aUsuarioResponse)
-            .toList();
-}
 }
 
