@@ -30,12 +30,6 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
-
-    /**
-     * Edición de datos propios (nombre, teléfono). NO permite cambiar el rol.
-     * El Gateway debe validar que el {id} corresponda al usuario autenticado
-     * (o que sea ADMIN) antes de dejar pasar esta petición.
-     */
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponse> actualizarPerfil(
             @PathVariable Long id,
@@ -43,9 +37,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.actualizarPerfil(id, request));
     }
 
-    /**
-     * Cambio de rol (RF-US-02). Endpoint exclusivo de ADMIN, validado en el Gateway.
-     */
     @PutMapping("/{id}/rol")
     public ResponseEntity<UsuarioResponse> actualizarRol(
             @PathVariable Long id,
@@ -53,9 +44,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.actualizarRol(id, request));
     }
 
-    /**
-     * Borrado lógico. Endpoint exclusivo de ADMIN (validado en el Gateway).
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> desactivar(@PathVariable Long id) {
         usuarioService.desactivarUsuario(id);
