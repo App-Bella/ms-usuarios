@@ -10,8 +10,8 @@ import com.pontebella.msusuarios.dto.response.UsuarioResponse;
 public interface UsuarioService {
     UsuarioResponse registrar(RegistroRequest request);
     LoginResponse login(LoginRequest request);
-    UsuarioResponse buscarPorId(Long id);
-    UsuarioResponse actualizarPerfil(Long id, ActualizarPerfilRequest request);
+    UsuarioResponse buscarPorId(Long id, Long requesterId, String requesterRole);
+    UsuarioResponse actualizarPerfil(Long id, ActualizarPerfilRequest request, Long requesterId, String requesterRole);
     UsuarioResponse actualizarRol(Long id, ActualizarRolRequest request);
     void desactivarUsuario(Long id);
     

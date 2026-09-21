@@ -11,6 +11,7 @@ import com.pontebella.msusuarios.dto.response.LoginResponse;
 import com.pontebella.msusuarios.dto.response.UsuarioResponse;
 import com.pontebella.msusuarios.entity.Usuario;
 import com.pontebella.msusuarios.enums.RolUsuario;
+import com.pontebella.msusuarios.exception.AccesoDenegadoException;
 import com.pontebella.msusuarios.exception.CredencialesInvalidasException;
 import com.pontebella.msusuarios.exception.EmailYaRegistradoException;
 import com.pontebella.msusuarios.exception.RecursoNoEncontradoException;
@@ -57,6 +58,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         );
     }
 
+    private void validarOwnershipOAdmin(Long id, Long requesterId, String requesterRole) {
+        boolean esAdmin = requesterRole != null && requesterRole.trim().equalsIgnoreCase("ADMIN");
+        boolean esPropioPerfil = requesterId != null && requesterId.equals(id);
+
+        if (!esAdmin && !esPropioPerfil) {
+            throw new AccesoDenegadoException("No tienes permiso para acceder al perfil de otro usuario");
+        }
+    }
+
     @Override
     public LoginResponse login(LoginRequest request) {
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
@@ -71,14 +81,23 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioResponse buscarPorId(Long id) {
+    public UsuarioResponse buscarPorId(Long id, Long requesterId, String requesterRole) {
+        validarOwnershipOAdmin(id, requesterId, requesterRole);
+
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Usuario no encontrado con id: " + id));
         return aUsuarioResponse(usuario);
     }
 
     @Override
-    public UsuarioResponse actualizarPerfil(Long id, ActualizarPerfilRequest request) {
+    public UsuarioResponse actualizarPerfil(Long id, ActualizarPerfilRequest request, Long requesterId, String requesterRole) {
+        boolean esAdmin = requesterRole != null && requesterRole.trim().equalsIgnoreCase("ADMIN");
+        boolean esPropioPerfil = requesterId != null && requesterId.equals(id);
+
+        if (!esAdmin && !esPropioPerfil) {
+            throw new AccesoDenegadoException("No tienes permiso para editar el perfil de otro usuario");
+        }
+
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNoEncontradoException("Usuario no encontrado con id: " + id));
 
