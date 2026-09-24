@@ -1,5 +1,7 @@
 package com.pontebella.msusuarios.service.impl;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,7 @@ import com.pontebella.msusuarios.dto.request.LoginRequest;
 import com.pontebella.msusuarios.dto.request.RegistroRequest;
 import com.pontebella.msusuarios.dto.response.LoginResponse;
 import com.pontebella.msusuarios.dto.response.UsuarioResponse;
+import com.pontebella.msusuarios.dto.response.UsuarioResumenResponse;
 import com.pontebella.msusuarios.entity.Usuario;
 import com.pontebella.msusuarios.enums.RolUsuario;
 import com.pontebella.msusuarios.exception.AccesoDenegadoException;
@@ -24,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
-    
+
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -70,7 +73,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public LoginResponse login(LoginRequest request) {
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-            .orElseThrow(() -> new CredencialesInvalidasException("Email o contraseña incorrectos"));
+                .orElseThrow(() -> new CredencialesInvalidasException("Email o contraseña incorrectos"));
 
         if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
             throw new CredencialesInvalidasException("Email o contraseña incorrectos");
@@ -128,5 +131,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-}
+    @Override
+    public List<UsuarioResumenResponse> listarPorRol(RolUsuario rol) {
+        return usuarioRepository.findByRol(rol).stream()
+                .filter(Usuario::isActivo)
+                .map(u -> new UsuarioResumenResponse(u.getId(), u.getNombre()))
+                .toList();
+    }
 
+}
