@@ -19,4 +19,5 @@ public interface UsuarioService {
     UsuarioResponse actualizarRol(Long id, ActualizarRolRequest request);
     void desactivarUsuario(Long id);
     List<UsuarioResumenResponse> listarPorRol(RolUsuario rol);
+    UsuarioResponse obtenerParaValidacion(Long id);
 }

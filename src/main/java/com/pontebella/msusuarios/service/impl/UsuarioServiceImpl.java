@@ -139,4 +139,11 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .toList();
     }
 
+    @Override
+    public UsuarioResponse obtenerParaValidacion(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Usuario no encontrado con id: " + id));
+        return aUsuarioResponse(usuario);
+    }
+
 }
